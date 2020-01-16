@@ -1,0 +1,11 @@
+{
+    "uid": "Stocken-test",
+    "spinSleepTime": 1000,
+    "append": true,
+    "watch": true,
+    "script": "index.js",
+    "sourceDir": "/home/ec2-user/stockentest.carl-axel.com",
+    "logFile": "/home/ec2-user/stockentest.carl-axel.com/logs/forever.log",
+    "outFile": "/home/ec2-user/stockentest.carl-axel.com/logs/out.log",
+    "errFile": "/home/ec2-user/stockentest.carl-axel.com/logs/error.log"
+}

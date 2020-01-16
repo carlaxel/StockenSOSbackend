@@ -1,0 +1,11 @@
+{
+    "uid": "Stocken-prod",
+    "spinSleepTime": 1000,
+    "append": true,
+    "watch": true,
+    "script": "index.js",
+    "sourceDir": "/home/ec2-user/stockensos.se",
+    "logFile": "/home/ec2-user/stockensos.se/logs/forever.log",
+    "outFile": "/home/ec2-user/stockensos.se/logs/out.log",
+    "errFile": "/home/ec2-user/stockensos.se/logs/error.log"
+}
