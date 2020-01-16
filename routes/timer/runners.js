@@ -17,9 +17,9 @@ const client = new MongoClient(url, {
 });
 
 const pusher = new Pusher({
-  appId: "813966",
-  key: "59c6e925000e92336b4c",
-  secret: "4d2ab561cece76a80613",
+  appId: process.env.PUSHER_APPID,
+  key: process.env.PUSHER_KEY,
+  secret: process.env.PUSHER_SECRET,
   cluster: "eu",
   useTLS: true
 });

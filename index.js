@@ -6,6 +6,7 @@ const app = express();
 const apiMainSite = require("./routes/main/apiMainSite");
 const apiTimer = require("./routes/api");
 const apiAlexa = require("./routes/apiAlexa");
+const apiAdmin = require("./routes/admin/index");
 
 if (dotenv.error) {
   throw dotenv.error;
@@ -35,6 +36,7 @@ app.use(bodyParser.json());
 app.use("/api-v1", apiMainSite);
 app.use("/api-2019", apiTimer);
 app.use("/api-alexa", apiAlexa);
+app.use("/api-admin", apiAdmin);
 app.listen(process.env.PORT, () => {
   console.log(`Running on port ${process.env.PORT}`);
 });
