@@ -9,7 +9,7 @@ module.exports = function sendEmail(address1, address2, data, id, intentId) {
   if (data.race == "knatte") {
     params = {
       Destination: {
-        ToAddresses: [address1, address2]
+        ToAddresses: [address1, address2],
       },
       Message: {
         Body: {
@@ -18,29 +18,29 @@ module.exports = function sendEmail(address1, address2, data, id, intentId) {
             Data: `<html>
           <h2>Välkommen till Stocken SOS</h2>
           <div>
-          <p>Tack för ditt köp för att deltaga i Stocken SOS den 18 Juli.</p>
+          <p>Tack för ditt köp för att deltaga i Stocken SOS den 17 Juli.</p>
           <p>Deltagare ${data.firstname1} ${data.lastname1} & ${data.firstname2} ${data.lastname2}</p>
           <p>Lopp: ${data.race}, Klass: ${data.runnersclass}</p>
           </div>
-          </html>`
+          </html>`,
           },
           Text: {
             Charset: "UTF-8",
-            Data: "Välkommen till Stocken SOS den 18 Juli."
-          }
+            Data: "Välkommen till Stocken SOS den 17 Juli.",
+          },
         },
         Subject: {
           Charset: "UTF-8",
-          Data: "Stocken SOS knatte"
-        }
+          Data: "Stocken SOS knatte",
+        },
       },
       Source: "no-reply@stockensos.se",
-      ConfigurationSetName: "standard"
+      ConfigurationSetName: "standard",
     };
   } else {
     params = {
       Destination: {
-        ToAddresses: [address1, address2]
+        ToAddresses: [address1, address2],
       },
       Message: {
         Body: {
@@ -49,7 +49,7 @@ module.exports = function sendEmail(address1, address2, data, id, intentId) {
             Data: `<html>
           <h2>Välkommen till Stocken SOS</h2>
           <div>
-          <p>Tack för ditt köp för att deltaga i Stocken SOS den 18 Juli.</p>
+          <p>Tack för ditt köp för att deltaga i Stocken SOS den 17 Juli.</p>
           <p>Ert team har startnummer: ${id}<p/>
           <p>Deltagare ${data.firstname1} ${data.lastname1} & ${
               data.firstname2
@@ -60,25 +60,24 @@ module.exports = function sendEmail(address1, address2, data, id, intentId) {
             env == "test" ? "test." : ""
           }stockensos.se/andring/${intentId}</p>
           </div>
-          </html>`
+          </html>`,
           },
           Text: {
             Charset: "UTF-8",
-            Data:
-              "Välkommen till StockenSOS. Tack för ditt köp för att deltaga i Stocken SOS den 18 Juli."
-          }
+            Data: "Välkommen till StockenSOS. Tack för ditt köp för att deltaga i Stocken SOS den 17 Juli.",
+          },
         },
         Subject: {
           Charset: "UTF-8",
-          Data: "Stocken SOS köp bekräftelse"
-        }
+          Data: "Stocken SOS köp bekräftelse",
+        },
       },
       Source: "no-reply@stockensos.se",
-      ConfigurationSetName: "standard"
+      ConfigurationSetName: "standard",
     };
   }
 
-  ses.sendEmail(params, function(err, data) {
+  ses.sendEmail(params, function (err, data) {
     if (err) console.log(err, err.stack);
     // an error occurred
     else console.log(data); // successful response

@@ -32,11 +32,14 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
-
 app.use("/api-v1", apiMainSite);
+console.log("test")
 app.use("/api-2019", apiTimer);
+console.log("test")
 app.use("/api-alexa", apiAlexa);
-app.use("/api-admin", apiAdmin);
+console.log("test")
+//app.use("/api-admin", apiAdmin);
+console.log("test")
 app.listen(process.env.PORT, () => {
   console.log(`Running on port ${process.env.PORT}`);
 });

@@ -6,14 +6,14 @@ const Pusher = require("pusher");
 const user = process.env.MONGO_USER;
 const password = process.env.MONGO_PASSWORD;
 
-const url = `mongodb+srv://${user}:${password}@stockensos-g1obv.mongodb.net/test?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
 const dbName = "Stocken";
 const COLLECTION = "Deltagare";
 //cacheDB();
 
 const client = new MongoClient(url, {
   useNewUrlParser: true,
-  useUnifiedTopology: true
+  useUnifiedTopology: true,
 });
 
 const pusher = new Pusher({
@@ -21,20 +21,17 @@ const pusher = new Pusher({
   key: process.env.PUSHER_KEY,
   secret: process.env.PUSHER_SECRET,
   cluster: "eu",
-  useTLS: true
+  useTLS: true,
 });
 
 client
   .connect()
-  .then(db => {
+  .then((db) => {
     console.log("connected to mongoDB");
-    const changeStream = client
-      .db(dbName)
-      .collection(COLLECTION)
-      .watch();
-    changeStream.on("change", next => {
+    const changeStream = client.db(dbName).collection(COLLECTION).watch();
+    changeStream.on("change", (next) => {
       pusher.trigger("my-channel", "runners", {
-        message: next
+        message: next,
       });
     });
 
@@ -42,13 +39,13 @@ client
       .db(dbName)
       .collection("DeltagareKorta")
       .watch();
-    changeStreamKnatte.on("change", next => {
+    changeStreamKnatte.on("change", (next) => {
       pusher.trigger("my-channel", "runnersKnatte", {
-        message: next
+        message: next,
       });
     });
   })
-  .catch(e => {
+  .catch((e) => {
     console.log(e);
   });
 
@@ -63,10 +60,7 @@ router.get("/", (req, res) => {
 
 router.get("/getAll", async (req, res) => {
   const db = client.db(dbName);
-  let documents = await db
-    .collection(COLLECTION)
-    .find()
-    .toArray();
+  let documents = await db.collection(COLLECTION).find().toArray();
 
   res.status(200).json(documents);
 });
@@ -74,10 +68,7 @@ router.get("/getAll", async (req, res) => {
 router.get("/getAllKnatte", async (req, res) => {
   const COLLECTION = "DeltagareKorta";
   const db = client.db(dbName);
-  let documents = await db
-    .collection(COLLECTION)
-    .find()
-    .toArray();
+  let documents = await db.collection(COLLECTION).find().toArray();
 
   res.status(200).json(documents);
 });
@@ -97,7 +88,7 @@ router.post("/newTeam", async (req, res) => {
     checkin: false,
     finished: false,
     finishtime: null,
-    officialtime: null
+    officialtime: null,
   });
   res.send(r);
 });

@@ -6,14 +6,14 @@ const Pusher = require("pusher");
 const user = process.env.MONGO_USER;
 const password = process.env.MONGO_PASSWORD;
 console.log(user);
-const url = `mongodb+srv://${user}:${password}@stockensos-g1obv.mongodb.net/test?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
 const dbName = "Stocken";
 const COLLECTION = "Starttider";
 //cacheDB();
 
 const client = new MongoClient(url, {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 
 const pusher = new Pusher({
@@ -21,24 +21,21 @@ const pusher = new Pusher({
   key: process.env.PUSHER_KEY,
   secret: process.env.PUSHER_SECRET,
   cluster: "eu",
-  useTLS: true
+  useTLS: true,
 });
 
 client
   .connect()
-  .then(db => {
-    const changeStream = client
-      .db(dbName)
-      .collection(COLLECTION)
-      .watch();
-    changeStream.on("change", next => {
+  .then((db) => {
+    const changeStream = client.db(dbName).collection(COLLECTION).watch();
+    changeStream.on("change", (next) => {
       console.log(next);
       pusher.trigger("my-channel", "starttime", {
-        message: next
+        message: next,
       });
     });
   })
-  .catch(e => {
+  .catch((e) => {
     console.log(e);
   });
 
@@ -62,10 +59,7 @@ router.get("/getTime", (req, res) => {
 
 router.get("/getAll", async (req, res) => {
   const db = client.db(dbName);
-  let documents = await db
-    .collection(COLLECTION)
-    .find()
-    .toArray();
+  let documents = await db.collection(COLLECTION).find().toArray();
 
   console.log(documents);
   res.status(200).json(documents);

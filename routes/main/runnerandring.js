@@ -2,14 +2,14 @@ const { MongoClient } = require("mongodb");
 
 const user = process.env.MONGO_USER;
 const password = process.env.MONGO_PASSWORD;
-const url = `mongodb+srv://${user}:${password}@stockensos-g1obv.mongodb.net/test?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
 
 const dbName = "Stocken";
 const COLLECTION = process.env.COLLECTION;
 
 const client = new MongoClient(url, {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 client
   .connect()
@@ -17,7 +17,7 @@ client
     console.log("connected to DB");
     const db = client.db(dbName);
   })
-  .catch(e => console.log(e));
+  .catch((e) => console.log(e));
 
 const put = async (req, res) => {
   try {

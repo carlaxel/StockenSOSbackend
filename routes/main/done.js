@@ -4,21 +4,20 @@ const { MongoClient } = require("mongodb");
 const sendEmail = require("../functions/sendEmail");
 const user = process.env.MONGO_USER;
 const password = process.env.MONGO_PASSWORD;
-const url = `mongodb+srv://${user}:${password}@stockensos-g1obv.mongodb.net/test?retryWrites=true&w=majority`;
+const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
 const dbName = "Stocken";
 const COLLECTION = process.env.COLLECTION;
 
 const client = new MongoClient(url, {
   useUnifiedTopology: true,
-  useNewUrlParser: true
+  useNewUrlParser: true,
 });
 client
   .connect()
   .then(() => {
     console.log("connected to DB");
-    const db = client.db(dbName);
   })
-  .catch(e => console.log(e));
+  .catch((e) => console.log(e));
 
 module.exports = async (req, res) => {
   //console.log(req.body.INTENT);
@@ -49,7 +48,7 @@ module.exports = async (req, res) => {
       finishtime: null,
       officialtime: null,
       ...data,
-      stripeIntendId: req.body.INTENT.id
+      stripeIntendId: req.body.INTENT.id,
     });
     console.timeEnd("insert");
     console.log(r.ops[0]._id);
