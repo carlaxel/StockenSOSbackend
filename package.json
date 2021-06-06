@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "alexa-verifier": "^2.0.1",
+    "alexa-verifier": "^3.0.1",
     "aws-sdk": "^2.587.0",
     "body-parser": "^1.19.0",
     "dotenv": "^8.2.0",
