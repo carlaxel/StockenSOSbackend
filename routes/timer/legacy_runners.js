@@ -1,3 +1,7 @@
+//
+// LEGACY 2019
+//
+
 const express = require("express");
 const router = express.Router();
 const { MongoClient } = require("mongodb");
@@ -27,7 +31,7 @@ const pusher = new Pusher({
 client
   .connect()
   .then((db) => {
-    console.log("connected to mongoDB");
+    console.log("connected to legacy runners mongoDB");
     const changeStream = client.db(dbName).collection(COLLECTION).watch();
     changeStream.on("change", (next) => {
       pusher.trigger("my-channel", "runners", {

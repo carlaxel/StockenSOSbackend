@@ -5,7 +5,7 @@ const sendEmail = require("../functions/sendEmail");
 const user = process.env.MONGO_USER;
 const password = process.env.MONGO_PASSWORD;
 const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
-const dbName = "Stocken";
+const dbName = process.env.DB_NAME;
 const COLLECTION = process.env.COLLECTION;
 
 const client = new MongoClient(url, {
@@ -27,21 +27,17 @@ module.exports = async (req, res) => {
     console.log(req.body.reg_data);
     let data = req.body.reg_data;
     const db = client.db(dbName);
-    console.time("count");
-    let length;
+    let length; // number of registered runners
     if (data.race === "lång") {
       length =
         (await db.collection(COLLECTION).countDocuments({ race: "lång" })) + 1;
     } else {
       length =
         (await db.collection(COLLECTION).countDocuments({ race: "mellan" })) +
-        330;
+        301;
     }
 
-    console.timeEnd("count");
-    console.log(length);
-    console.time("insert");
-    let r = await db.collection(COLLECTION).insertOne({
+    await db.collection(COLLECTION).insertOne({
       _id: parseInt(length),
       checkin: false,
       finished: false,
@@ -50,13 +46,11 @@ module.exports = async (req, res) => {
       ...data,
       stripeIntendId: req.body.INTENT.id,
     });
-    console.timeEnd("insert");
-    console.log(r.ops[0]._id);
+
     res.status(200).json("OK");
     sendEmail(data.email1, data.email2, data, length, req.body.INTENT.id);
   } catch (e) {
     console.log(e);
-    console.log(data);
     res.status(500).json("Failed payment");
   }
 };

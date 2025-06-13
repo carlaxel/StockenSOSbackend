@@ -5,8 +5,6 @@ let dotenv = require("dotenv-flow").config();
 const app = express();
 const apiMainSite = require("./routes/main/apiMainSite");
 const apiTimer = require("./routes/api");
-const apiAlexa = require("./routes/apiAlexa");
-const apiAdmin = require("./routes/admin/index");
 
 if (dotenv.error) {
   throw dotenv.error;
@@ -33,13 +31,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 // parse application/json
 app.use(bodyParser.json());
 app.use("/api-v1", apiMainSite);
-console.log("test")
+
 app.use("/api-2019", apiTimer);
-console.log("test")
-app.use("/api-alexa", apiAlexa);
-console.log("test")
+
 //app.use("/api-admin", apiAdmin);
-console.log("test")
+
 app.listen(process.env.PORT, () => {
   console.log(`Running on port ${process.env.PORT}`);
 });

@@ -1,25 +1,27 @@
 const express = require("express");
-const router = express.Router();
 const { MongoClient } = require("mongodb");
 const Pusher = require("pusher");
 
-const user = process.env.MONGO_USER;
-const password = process.env.MONGO_PASSWORD;
-console.log(user);
-const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
-const dbName = "Stocken";
-const COLLECTION = "Starttider";
-//cacheDB();
+const router = express.Router();
 
-const client = new MongoClient(url, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-});
+const {
+  MONGO_PASSWORD: password,
+  MONGO_USER: user,
+  DB_NAME: dbName,
+  COLLECTION_TIMER: COLLECTION,
+  PUSHER_APPID,
+  PUSHER_KEY,
+  PUSHER_SECRET,
+} = process.env;
+
+const url = `mongodb+srv://${user}:${password}@cluster0.geek0.mongodb.net/Stocken?retryWrites=true&w=majority`;
+
+const client = new MongoClient(url, { useNewUrlParser: true });
 
 const pusher = new Pusher({
-  appId: process.env.PUSHER_APPID,
-  key: process.env.PUSHER_KEY,
-  secret: process.env.PUSHER_SECRET,
+  appId: PUSHER_APPID,
+  key: PUSHER_KEY,
+  secret: PUSHER_SECRET,
   cluster: "eu",
   useTLS: true,
 });
@@ -27,6 +29,7 @@ const pusher = new Pusher({
 client
   .connect()
   .then((db) => {
+    console.log("connected starttime to DB");
     const changeStream = client.db(dbName).collection(COLLECTION).watch();
     changeStream.on("change", (next) => {
       console.log(next);

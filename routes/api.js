@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const runners = require("./timer/runners");
-const starttime = require("./timer/starttime");
+const runners = require("./timer/legacy_runners");
+const starttime = require("./timer/legacy_starttime");
 
 router.use((req, res, next) => {
   console.log("reached 'API-2019'");
